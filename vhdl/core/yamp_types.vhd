@@ -44,7 +44,7 @@ package yamp_types is
 	-- should this later go to a yamp_config package?
 	constant DM_BITS : integer := 8;
 	constant IM_BITS : integer := 9;
-	
+
 	-- Each pipeline stage has a single record output
 	-- The output is the combinational output and
 	-- is registered in the consuming stage
@@ -53,7 +53,9 @@ package yamp_types is
 	end record;
 
 	type decex_type is record
-		instr : std_logic_vector(31 downto 0);
+		instr        : std_logic_vector(31 downto 0);
+		rs, rt, rd   : std_logic_vector(4 downto 0);
+		rsval, rtval : std_logic_vector(31 downto 0);
 	end record;
 
 	type exmem_type is record
@@ -68,19 +70,17 @@ package yamp_types is
 		instr : std_logic_vector(31 downto 0);
 	end record;
 
-
 	-- Simple IO records for a start with a UART
 	type io_out_type is record
-		addr : std_logic_vector(7 downto 0);
-		rd : std_logic;
-		wr : std_logic;
+		addr   : std_logic_vector(7 downto 0);
+		rd     : std_logic;
+		wr     : std_logic;
 		wrdata : std_logic_vector(15 downto 0);
 	end record;
 
 	type io_in_type is record
 		rddata : std_logic_vector(15 downto 0);
 	end record;
-	
 
 end package;
 
