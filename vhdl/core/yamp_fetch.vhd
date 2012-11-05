@@ -45,17 +45,33 @@ entity yamp_fetch is
 	port(
 		clk   : in  std_logic;
 		reset : in  std_logic;
-		dout : out fetch_type);
+		ena   : in  std_logic;
+		dout  : out fedec_type);
 end entity yamp_fetch;
 
 architecture rtl of yamp_fetch is
+	signal feout : fedec_type;
 
-	signal feout  : fetch_type;
+	-- maybe it should count in words
+	signal pc, pc_next : unsigned(31 downto 2);
 
 begin
+	process(clk, reset)
+	begin
+		if reset = '1' then
+			-- Start at -1 to execute the first instruction
+			pc <= (others => '1');
+		elsif rising_edge(clk) then
+			if ena = '1' then
+				pc <= pc_next;
+			end if;
+		end if;
+	end process;
 
-	feout.instr <= (others => '0');
-	
+	pc_next <= pc + 1;
+
+	feout.instr <= std_logic_vector(pc & "00");
+
 	dout <= feout;
 
 end;

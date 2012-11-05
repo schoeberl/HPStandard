@@ -30,57 +30,47 @@
 
 
 --------------------------------------------------------------------------------
--- Type definitions for Yamp.
+-- Top level for ModelSim simulation.
 --
 -- Author: Martin Schoeberl (martin@jopdesign.com)
 --------------------------------------------------------------------------------
+
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-package yamp_types is
-
-	-- should this later go to a yamp_config package?
-	constant DM_BITS : integer := 8;
-	constant IM_BITS : integer := 9;
-	
-	-- Each pipeline stage has a single record output
-	-- The output is the combinational output and
-	-- is registered in the consuming stage
-	type fedec_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
-
-	type decex_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
-
-	type exmem_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
-
-	type memwb_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
-
-	type wb_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
+use work.yamp_types.all;
+-- use work.sc_pack.all;
 
 
-	-- Simple IO records for a start with a UART
-	type io_out_type is record
-		addr : std_logic_vector(7 downto 0);
-		rd : std_logic;
-		wr : std_logic;
-		wrdata : std_logic_vector(15 downto 0);
-	end record;
+entity tb_yamp is
+end tb_yamp;
 
-	type io_in_type is record
-		rddata : std_logic_vector(15 downto 0);
-	end record;
-	
+architecture rtl of tb_yamp is
+	signal clk   : std_logic := '1';
+	signal reset : std_logic := '1';
 
-end package;
+	signal ioout : io_out_type;
+	signal ioin  : io_in_type;
 
+begin
+
+	--	100 MHz clock		
+	process
+	begin
+		wait for 5 ns;
+		clk <= not clk;
+	end process;
+	-- reset
+	process
+	begin
+		wait for 25 ns;
+		reset <= '0';
+		wait;
+	end process;
+
+	cpu : entity work.yamp
+		port map(clk, reset, ioout, ioin);
+
+end rtl;

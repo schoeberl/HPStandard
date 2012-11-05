@@ -51,21 +51,36 @@ entity yamp is
 end entity yamp;
 
 architecture rtl of yamp is
+	signal feout  : fedec_type;
+	signal decout : decex_type;
+	signal exout  : exmem_type;
+	signal memout : memwb_type;
+	signal wbout  : wb_type;
 
-	signal feout  : fetch_type;
-	signal decout  : decode_type;
-	signal exeout  : execute_type;
-	signal memout  : memory_type;
-	signal wbout  : writeback_type;
+	signal ena : std_logic;
 
 begin
---	ioout.addr   <= fdout.imm(7 downto 0);
---	ioout.rd     <= fdout.dec.inp;
---	ioout.wr     <= fdout.dec.outp;
---	ioout.wrdata <= exout.accu;
+	--	ioout.addr   <= fdout.imm(7 downto 0);
+	--	ioout.rd     <= fdout.dec.inp;
+	--	ioout.wr     <= fdout.dec.outp;
+	--	ioout.wrdata <= exout.accu;
 
-	fd : entity work.yamp_fetch port map(
-			clk, reset, feout
+	ena <= '1';                         -- always enabled, no reason to stall (yet)
+
+	fe : entity work.yamp_fetch port map(
+			clk, reset, ena, feout
+		);
+	dec : entity work.yamp_decode port map(
+			clk, reset, ena, feout, decout
+		);
+	ex : entity work.yamp_execute port map(
+			clk, reset, ena, decout, exout
+		);
+	mem : entity work.yamp_memory port map(
+			clk, reset, ena, exout, memout
+		);
+	wb : entity work.yamp_wback port map(
+			clk, reset, ena, memout, wbout
 		);
 
 end;

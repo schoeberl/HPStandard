@@ -30,7 +30,7 @@
 
 
 --------------------------------------------------------------------------------
--- Type definitions for Yamp.
+-- Execution stage.
 --
 -- Author: Martin Schoeberl (martin@jopdesign.com)
 --------------------------------------------------------------------------------
@@ -39,48 +39,37 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-package yamp_types is
+use work.yamp_types.all;
 
-	-- should this later go to a yamp_config package?
-	constant DM_BITS : integer := 8;
-	constant IM_BITS : integer := 9;
-	
-	-- Each pipeline stage has a single record output
-	-- The output is the combinational output and
-	-- is registered in the consuming stage
-	type fedec_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
+entity yamp_execute is
+	port(
+		clk   : in  std_logic;
+		reset : in  std_logic;
+		ena   : in  std_logic;
+		din   : in  decex_type;
+		dout  : out exmem_type);
+end entity yamp_execute;
 
-	type decex_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
+architecture rtl of yamp_execute is
+	signal decex_reg : decex_type;
+	signal exout     : exmem_type;
 
-	type exmem_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
+begin
+	-- Pipeline register, with an enable for stalling
+	-- Reset to an inactive value (nop instruction)
+	process(clk, reset)
+	begin
+		if reset = '1' then
+			decex_reg.instr <= (others => '0');
+		elsif rising_edge(clk) then
+			if ena = '1' then
+				decex_reg <= din;
+			end if;
+		end if;
+	end process;
 
-	type memwb_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
+	exout.instr <= decex_reg.instr;
 
-	type wb_type is record
-		instr : std_logic_vector(31 downto 0);
-	end record;
+	dout <= exout;
 
-
-	-- Simple IO records for a start with a UART
-	type io_out_type is record
-		addr : std_logic_vector(7 downto 0);
-		rd : std_logic;
-		wr : std_logic;
-		wrdata : std_logic_vector(15 downto 0);
-	end record;
-
-	type io_in_type is record
-		rddata : std_logic_vector(15 downto 0);
-	end record;
-	
-
-end package;
-
+end;
