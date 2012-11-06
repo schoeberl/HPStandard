@@ -68,11 +68,6 @@ begin
 		end if;
 	end process;
 
-	decout.rs    <= fedec_reg.instr(25 downto 21);
-	decout.rt    <= fedec_reg.instr(20 downto 16);
-	decout.rd    <= fedec_reg.instr(15 downto 11);
-	decout.instr <= fedec_reg.instr;
-
 	-- register file read is from unregistered instruction
 	rf : entity work.yamp_rf port map(
 			clk, reset,
@@ -82,6 +77,13 @@ begin
 			din.instr,                  -- shall be write data
 			'0'
 		);
+
+	decout.rs    <= fedec_reg.instr(25 downto 21);
+	decout.rt    <= fedec_reg.instr(20 downto 16);
+	decout.rd    <= fedec_reg.instr(15 downto 11);
+	decout.instr <= fedec_reg.instr;
+	-- that's dependent on the instruction
+	decout.rd_ena <= '1';
 
 	dout <= decout;
 

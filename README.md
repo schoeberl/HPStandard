@@ -11,4 +11,7 @@ Also a test case how long it takes to develop a MIPS pipeline, assuming
 reasonable VHDL knowledge. Furthermore, we can leverage some work from
 JOP, Leros, and Patmos.
 
-5.11.2012: 2h15' Setup the project, create first VHDL files, ModelSim simulation
+5.11.2012: 2h45' Setup the project, create first VHDL files, ModelSim simulation,
+                 a Quartus project
+		 
+

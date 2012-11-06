@@ -55,19 +55,30 @@ package yamp_types is
 	type decex_type is record
 		instr        : std_logic_vector(31 downto 0);
 		rs, rt, rd   : std_logic_vector(4 downto 0);
+		rd_ena       : std_logic;
 		rsval, rtval : std_logic_vector(31 downto 0);
+	end record;
+
+	-- the result is just a single register write
+	type wb_data_type is record
+		addr : std_logic_vector(4 downto 0);
+		ena  : std_logic;
+		val  : std_logic_vector(31 downto 0);
 	end record;
 
 	type exmem_type is record
 		instr : std_logic_vector(31 downto 0);
+		rd    : wb_data_type;
 	end record;
 
 	type memwb_type is record
 		instr : std_logic_vector(31 downto 0);
+		rd    : wb_data_type;
 	end record;
 
 	type wb_type is record
 		instr : std_logic_vector(31 downto 0);
+		rd    : wb_data_type;
 	end record;
 
 	-- Simple IO records for a start with a UART

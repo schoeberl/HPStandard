@@ -69,7 +69,12 @@ begin
 	end process;
 
 	exout.instr <= decex_reg.instr;
-
+	
+	exout.rd.addr <= decex_reg.rd;
+	exout.rd.ena <= decex_reg.rd_ena;
+	-- for now we can just add
+	exout.rd.val <= std_logic_vector(unsigned(decex_reg.rsval)+unsigned(decex_reg.rtval));
+	
 	dout <= exout;
 
 end;

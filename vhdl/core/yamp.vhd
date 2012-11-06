@@ -83,4 +83,6 @@ begin
 			clk, reset, ena, memout, wbout
 		);
 
+	-- to keep synthesis busy:
+	ioout.wrdata <= wbout.rd.val(15 downto 0);
 end;

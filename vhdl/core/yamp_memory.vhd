@@ -69,6 +69,8 @@ begin
 	end process;
 
 	memout.instr <= exmem_reg.instr;
+	-- simply forward the ex data - we are not yet ready for a real mem stage
+	memout.rd <= exmem_reg.rd;
 
 	dout <= memout;
 

@@ -69,6 +69,7 @@ begin
 	end process;
 
 	wbout.instr <= memwb_reg.instr;
+	wbout.rd <= memwb_reg.rd;
 
 	dout <= wbout;
 
