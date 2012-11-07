@@ -84,5 +84,5 @@ begin
 		);
 
 	-- to keep synthesis busy:
-	ioout.wrdata <= wbout.rd.val(15 downto 0);
+	ioout.wrdata <= wbout.rd.reg.val(15 downto 0);
 end;

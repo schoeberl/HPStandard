@@ -70,10 +70,11 @@ begin
 
 	exout.instr <= decex_reg.instr;
 	
-	exout.rd.addr <= decex_reg.rd;
-	exout.rd.ena <= decex_reg.rd_ena;
+	exout.rd.reg.regnr <= decex_reg.rd.regnr;
+	exout.rd.wrena <= decex_reg.rd.wrena;
+	
 	-- for now we can just add
-	exout.rd.val <= std_logic_vector(unsigned(decex_reg.rsval)+unsigned(decex_reg.rtval));
+	exout.rd.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val)+unsigned(decex_reg.rt.val));
 	
 	dout <= exout;
 

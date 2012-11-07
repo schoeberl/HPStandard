@@ -45,6 +45,24 @@ package yamp_types is
 	constant DM_BITS : integer := 8;
 	constant IM_BITS : integer := 9;
 
+	-- A register read
+	type reg_type is record
+		regnr : std_logic_vector(4 downto 0);
+		val   : std_logic_vector(31 downto 0);
+	end record;
+
+	-- destination register from decode
+	type regdest_dec_type is record
+		regnr : std_logic_vector(4 downto 0);
+		wrena : std_logic;
+	end record;
+	
+	-- write back for the destination register
+	type regdest_type is record
+		reg    : reg_type;
+		wrena : std_logic;
+	end record;
+
 	-- Each pipeline stage has a single record output
 	-- The output is the combinational output and
 	-- is registered in the consuming stage
@@ -54,31 +72,23 @@ package yamp_types is
 
 	type decex_type is record
 		instr        : std_logic_vector(31 downto 0);
-		rs, rt, rd   : std_logic_vector(4 downto 0);
-		rd_ena       : std_logic;
-		rsval, rtval : std_logic_vector(31 downto 0);
-	end record;
-
-	-- the result is just a single register write
-	type wb_data_type is record
-		addr : std_logic_vector(4 downto 0);
-		ena  : std_logic;
-		val  : std_logic_vector(31 downto 0);
+		rs, rt       : reg_type;
+		rd           : regdest_dec_type;
 	end record;
 
 	type exmem_type is record
 		instr : std_logic_vector(31 downto 0);
-		rd    : wb_data_type;
+		rd    : regdest_type;
 	end record;
 
 	type memwb_type is record
 		instr : std_logic_vector(31 downto 0);
-		rd    : wb_data_type;
+		rd    : regdest_type;
 	end record;
 
 	type wb_type is record
 		instr : std_logic_vector(31 downto 0);
-		rd    : wb_data_type;
+		rd    : regdest_type;
 	end record;
 
 	-- Simple IO records for a start with a UART

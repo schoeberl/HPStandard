@@ -14,4 +14,4 @@ JOP, Leros, and Patmos.
 5.11.2012: 2h45' Setup the project, create first VHDL files, ModelSim simulation,
                  a Quartus project
 		 
-
+6.11.2012: 1h00' Structure the records for registers, search for MIPS tools
