@@ -16,4 +16,17 @@ JOP, Leros, and Patmos.
 		 
 6.11.2012: 1h00' Structure the records for registers, search for MIPS tools
 
-7.11.2012: 1h15', 13:50- Build binutils
+7.11.2012: 1h15' Build binutils, ELF to VHDL conversion
+
+13:50-
+
+Prerequisites: some tools are needed
+
+	* make
+	* Java (JDK)
+	* a C compiler
+	* cmake and boost (recent versions)
+	* libelf
+	* ModelSim
+	* (Quartus)
+

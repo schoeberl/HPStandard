@@ -50,10 +50,13 @@ entity yamp_fetch is
 end entity yamp_fetch;
 
 architecture rtl of yamp_fetch is
+	constant rom_addr_size : integer := 10;
+	signal address         : std_logic_vector(rom_addr_size - 1 downto 0);
+
 	signal feout : fedec_type;
 
-	-- maybe it should count in words
-	signal pc, pc_next : unsigned(31 downto 2);
+	-- we count in 32-bit words
+	signal pc, pc_next : unsigned(29 downto 0);
 
 begin
 	process(clk, reset)
@@ -65,12 +68,18 @@ begin
 			if ena = '1' then
 				pc <= pc_next;
 			end if;
+			-- no disable of this register as it is in the on-chip memory
+			address <= std_logic_vector(pc_next(rom_addr_size - 1 downto 0));
 		end if;
 	end process;
 
 	pc_next <= pc + 1;
 
-	feout.instr <= std_logic_vector(pc & "00");
+	rom : entity work.yamp_rom
+		port map(
+			address => address,
+			q       => feout.instr
+		);
 
 	dout <= feout;
 

@@ -22,6 +22,7 @@ all: clean base
 base:
 	$(WINE) vlib work
 	$(WINE) vcom $(OPTIONS) $(YAMPDIR)/core/yamp_types.vhd
+	$(WINE) vcom $(OPTIONS) $(YAMPDIR)/generated/yamp_rom.vhd
 	$(WINE) vcom $(OPTIONS) $(YAMPDIR)/core/yamp_rf.vhd
 	$(WINE) vcom $(OPTIONS) $(YAMPDIR)/core/yamp_fetch.vhd
 	$(WINE) vcom $(OPTIONS) $(YAMPDIR)/core/yamp_decode.vhd

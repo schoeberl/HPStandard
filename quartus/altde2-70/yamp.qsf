@@ -75,7 +75,7 @@ set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVCMOS"
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
 set_global_assignment -name VHDL_FILE ../../vhdl/core/yamp_types.vhd
-# set_global_assignment -name VHDL_FILE ../../vhdl/generated/yamp_rom.vhd
+set_global_assignment -name VHDL_FILE ../../vhdl/generated/yamp_rom.vhd
 set_global_assignment -name VHDL_FILE ../../vhdl/core/yamp_fetch.vhd
 set_global_assignment -name VHDL_FILE ../../vhdl/core/yamp_rf.vhd
 set_global_assignment -name VHDL_FILE ../../vhdl/core/yamp_decode.vhd

@@ -27,12 +27,13 @@ endif
 QPROJ=dspio
 QPROJ=altde2-70
 
-all: directories tools rom
-	make yamp
+all: tools compiler rom 
+	make sim
+#	make yamp
 
-directories:
-	-mkdir -p tmp
-	-mkdir -p rbf
+
+compiler:
+	scripts/build.sh
 
 elf2vhdl:
 	-mkdir -p ctools/build
@@ -71,6 +72,7 @@ comp:
 
 # ModelSim
 sim:
+	make rom
 	cd modelsim; make
 
 # Testing
