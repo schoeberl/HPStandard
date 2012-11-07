@@ -15,3 +15,5 @@ JOP, Leros, and Patmos.
                  a Quartus project
 		 
 6.11.2012: 1h00' Structure the records for registers, search for MIPS tools
+
+7.11.2012: 1h15', 13:50- Build binutils

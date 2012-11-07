@@ -1,0 +1,60 @@
+
+README.yari-tools
+
+The directory contains the toolchain need to compiling XXX firmware
+running on YARI, a MIPS R3000 compatible clone.
+
+Build instructions:
+===================
+
+ Tools were built as follows:
+
+
+ Binutils:
+
+   tar xjf /home/build/yari-tools/dist/binutils-2.22.tar.bz2
+   mkdir build-binutils
+   cd build-binutils
+   ../binutils-2.22/configure --target=mipsel-elf --prefix=/home/build/yari-tools --with-gnu-as --with-gnu-ld
+   make -j16
+   make install
+   cd ..
+
+
+ GCC:
+
+   PATH=/home/build/yari-tools/bin:$PATH
+
+   sudo yum install gmp-devel mpfr-devel libmpc-devel
+   tar xjf /home/build/yari-tools/dist/gcc-4.5.3.tar.bz2
+   mkdir build-gcc
+   cd build-gcc
+   ../gcc-4.5.3/configure --target=mipsel-elf --prefix=/home/build/yari-tools --with-gnu-as --with-gnu-ld --enable-languages=c --with-newlib --with-libgloss --disable-libssp
+   make -j16
+   make install
+   cd ..
+
+
+ NEWLIB:
+
+   tar xzf /home/build/yari-tools/dist/newlib-1.20.0.tar.gz
+   mkdir build-newlib
+   cd build-newlib
+   ../newlib-1.20.0/configure --target=mipsel-elf --prefix=/home/build/yari-tools
+   make -j16
+   make install
+   cd ..
+
+ GDB:
+
+   tar xjf /home/build/yari-tools/dist/gdb-7.4.tar.bz2
+   mkdir build-gdb
+   cd build-gdb
+   ../gdb-7.4/configure --target=mipsel-elf --prefix=/home/build/yari-tools
+   make -j16
+   make install
+   cd ..
+
+
+Note, I also tried GCC 4.7.0 and GCC 4.6.3 but from visual inspection
+of the hot loops, the code quality appeared to have gotten worse.
