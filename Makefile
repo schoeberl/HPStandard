@@ -35,6 +35,9 @@ all: tools compiler rom
 compiler:
 	scripts/build.sh
 
+yarisim:
+	scripts/yarisim.sh
+
 elf2vhdl:
 	-mkdir -p ctools/build
 	cd ctools/build && cmake ..
@@ -74,6 +77,11 @@ comp:
 sim:
 	make rom
 	cd modelsim; make
+
+# MIPS simulator with yarisim
+ysim:
+	make rom
+	bin/yarisim --regdump tmp/$(APP).out
 
 # Testing
 test:

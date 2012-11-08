@@ -7,4 +7,7 @@ main:
 	nop
 	add $4, $2, $3
 	nop
-
+	nop
+	nop
+	nop
+	nop

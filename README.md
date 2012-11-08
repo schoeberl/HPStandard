@@ -16,8 +16,8 @@ JOP, Leros, and Patmos.
 		 
 6.11.2012: 1h00' Structure the records for registers, search for MIPS tools
 
-7.11.2012: 4h15' Build binutils, ELF to VHDL conversion, fetch from ROM,
-                 first two instructions
+7.11.2012: 5h30' Build binutils, ELF to VHDL conversion, fetch from ROM,
+                 first two instructions, add the YARI/MIPS simulator for co-simulation
 
 Prerequisites: some tools are needed
 
@@ -28,4 +28,4 @@ Prerequisites: some tools are needed
 	* libelf
 	* ModelSim
 	* (Quartus)
-
+	* SDL (sdllib on Mac ports)
