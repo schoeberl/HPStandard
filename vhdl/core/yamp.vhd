@@ -71,7 +71,7 @@ begin
 			clk, reset, ena, feout
 		);
 	dec : entity work.yamp_decode port map(
-			clk, reset, ena, feout, decout
+			clk, reset, ena, feout, wbout, decout
 		);
 	ex : entity work.yamp_execute port map(
 			clk, reset, ena, decout, exout
@@ -84,5 +84,5 @@ begin
 		);
 
 	-- to keep synthesis busy:
-	ioout.wrdata <= wbout.rd.reg.val(15 downto 0);
+	ioout.wrdata <= wbout.rdest.reg.val(15 downto 0);
 end;

@@ -54,6 +54,8 @@ architecture rtl of yamp_execute is
 	signal decex_reg : decex_type;
 	signal exout     : exmem_type;
 
+	signal op2 : std_logic_vector(31 downto 0);
+
 begin
 	-- Pipeline register, with an enable for stalling
 	-- Reset to an inactive value (nop instruction)
@@ -69,13 +71,25 @@ begin
 	end process;
 
 	exout.instr <= decex_reg.instr;
-	
-	exout.rd.reg.regnr <= decex_reg.rd.regnr;
-	exout.rd.wrena <= decex_reg.rd.wrena;
-	
-	-- for now we can just add
-	exout.rd.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val)+unsigned(decex_reg.rt.val));
-	
+
+	exout.rdest.reg.regnr <= decex_reg.rdest.regnr;
+	exout.rdest.wrena     <= decex_reg.rdest.wrena;
+
+	process(decex_reg, op2)
+	begin
+		-- This might be better done in decode, but then we need two forwarding paths
+		if decex_reg.sel_imm='1' then
+			op2 <= decex_reg.immval;
+		else
+			op2 <= decex_reg.rt.val;
+		end if;
+		if decex_reg.sel_add='1' then
+			exout.rdest.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val) + unsigned(op2));
+		else
+			exout.rdest.reg.val <= (others => '0');
+		end if;
+	end process;
+
 	dout <= exout;
 
 end;

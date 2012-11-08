@@ -4,6 +4,7 @@ main:
 	li $3, 2
 	nop
 	nop
+	nop
 	add $4, $2, $3
 	nop
 

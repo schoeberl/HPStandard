@@ -56,10 +56,10 @@ package yamp_types is
 		regnr : std_logic_vector(4 downto 0);
 		wrena : std_logic;
 	end record;
-	
+
 	-- write back for the destination register
 	type regdest_type is record
-		reg    : reg_type;
+		reg   : reg_type;
 		wrena : std_logic;
 	end record;
 
@@ -71,24 +71,28 @@ package yamp_types is
 	end record;
 
 	type decex_type is record
-		instr        : std_logic_vector(31 downto 0);
-		rs, rt       : reg_type;
-		rd           : regdest_dec_type;
+		instr   : std_logic_vector(31 downto 0);
+		rs, rt  : reg_type;
+		rdest   : regdest_dec_type;
+		sa      : std_logic_vector(4 downto 0);
+		immval  : std_logic_vector(31 downto 0);
+		sel_imm : std_logic;
+		sel_add : std_logic;
 	end record;
 
 	type exmem_type is record
 		instr : std_logic_vector(31 downto 0);
-		rd    : regdest_type;
+		rdest : regdest_type;
 	end record;
 
 	type memwb_type is record
 		instr : std_logic_vector(31 downto 0);
-		rd    : regdest_type;
+		rdest : regdest_type;
 	end record;
 
 	type wb_type is record
 		instr : std_logic_vector(31 downto 0);
-		rd    : regdest_type;
+		rdest : regdest_type;
 	end record;
 
 	-- Simple IO records for a start with a UART

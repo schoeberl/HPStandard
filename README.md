@@ -16,9 +16,8 @@ JOP, Leros, and Patmos.
 		 
 6.11.2012: 1h00' Structure the records for registers, search for MIPS tools
 
-7.11.2012: 1h15' Build binutils, ELF to VHDL conversion
-
-13:50-
+7.11.2012: 4h15' Build binutils, ELF to VHDL conversion, fetch from ROM,
+                 first two instructions
 
 Prerequisites: some tools are needed
 

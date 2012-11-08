@@ -70,7 +70,7 @@ begin
 
 	memout.instr <= exmem_reg.instr;
 	-- simply forward the ex data - we are not yet ready for a real mem stage
-	memout.rd <= exmem_reg.rd;
+	memout.rdest <= exmem_reg.rdest;
 
 	dout <= memout;
 
