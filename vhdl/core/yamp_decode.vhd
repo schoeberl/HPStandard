@@ -43,12 +43,12 @@ use work.yamp_types.all;
 
 entity yamp_decode is
 	port(
-		clk   : in  std_logic;
-		reset : in  std_logic;
-		ena   : in  std_logic;
-		din   : in  fedec_type;
-		dinwb : in  wb_type;
-		dout  : out decex_type);
+		clk    : in  std_logic;
+		reset  : in  std_logic;
+		ena    : in  std_logic;
+		din    : in  fedec_type;
+		dinmem : in  memwb_type;
+		dout   : out decex_type);
 end entity yamp_decode;
 
 architecture rtl of yamp_decode is
@@ -76,9 +76,9 @@ begin
 			clk, reset,
 			din.instr(25 downto 21), din.instr(20 downto 16),
 			decout.rs.val, decout.rt.val,
-			dinwb.rdest.reg.regnr,                 -- write address
-			dinwb.rdest.reg.val,                  -- write data
-			dinwb.rdest.wrena
+			dinmem.rdest.reg.regnr,     -- write address
+			dinmem.rdest.reg.val,       -- write data
+			dinmem.rdest.wrena
 		);
 
 	decout.rs.regnr <= fedec_reg.instr(25 downto 21);
@@ -105,7 +105,22 @@ begin
 
 		case opcode is
 			when "000000" =>            -- R format (?)
+				case funct is
+					when "000000" =>
+					when "100000" =>    -- add
+						decout.sel_add     <= '1';
+						decout.rdest.wrena <= '1';
+					when "100001" =>    -- addu
+						decout.sel_add     <= '1';
+						decout.rdest.wrena <= '1';
+					when others =>
+						null;
+				end case;
+			when "001000" =>            -- addi
+				decout.sel_imm     <= '1';
+				decout.sel_add     <= '1';
 				decout.rdest.wrena <= '1';
+				decout.rdest.regnr <= fedec_reg.instr(20 downto 16);
 			when "001001" =>            -- addiu
 				decout.sel_imm     <= '1';
 				decout.sel_add     <= '1';
@@ -115,13 +130,7 @@ begin
 				null;
 		end case;
 
-		case funct is
-			when "000000" =>
-			when "100000" =>            -- add
-				decout.sel_add <= '1';
-			when others =>
-				null;
-		end case;
+		-- TODO: disable wrena when rdest.regnr == 0
 	end process;
 
 	dout <= decout;

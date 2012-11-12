@@ -66,14 +66,15 @@ architecture rtl of yamp_top is
 	signal ioout : io_out_type;
 	signal ioin  : io_in_type;
 
-	signal outp    : std_logic_vector(15 downto 0);
+	signal outp    : std_logic_vector(7 downto 0);
 	signal btn_reg : std_logic_vector(3 downto 0);
 
 begin
 
 	-- clk input is 50 MHz
+	-- 200 MHz is too much even for a simple, non-forwarding ALU
 	pll_inst : entity work.pll generic map(
-			multiply_by => 6,
+			multiply_by => 4,
 			divide_by   => 1
 		)
 		port map(
@@ -124,7 +125,7 @@ begin
 	begin
 		if rising_edge(clk_int) then
 			--		if ioout.wr='1' then
-			outp    <= ioout.wrdata(15 downto 0);
+			outp    <= ioout.wrdata(31 downto 24) or ioout.wrdata(23 downto 16) or ioout.wrdata(15 downto 8) or ioout.wrdata(7 downto 0);
 			--		end if;
 			oLEDG   <= outp(7 downto 0);
 			btn_reg <= iKEY;

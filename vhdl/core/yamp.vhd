@@ -71,7 +71,7 @@ begin
 			clk, reset, ena, feout
 		);
 	dec : entity work.yamp_decode port map(
-			clk, reset, ena, feout, wbout, decout
+			clk, reset, ena, feout, memout, decout
 		);
 	ex : entity work.yamp_execute port map(
 			clk, reset, ena, decout, exout

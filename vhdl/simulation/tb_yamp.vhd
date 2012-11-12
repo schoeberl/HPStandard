@@ -65,7 +65,7 @@ begin
 	-- reset
 	process
 	begin
-		wait for 25 ns;
+		wait for 15 ns;
 		reset <= '0';
 		wait;
 	end process;

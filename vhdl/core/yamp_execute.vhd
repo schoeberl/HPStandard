@@ -84,8 +84,7 @@ begin
 			op2 <= decex_reg.rt.val;
 		end if;
 		if decex_reg.sel_add='1' then
---			exout.rdest.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val) + unsigned(op2));
-			exout.rdest.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val) + unsigned(op2) + unsigned(op2) + unsigned(op2) + unsigned(op2));
+			exout.rdest.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val) + unsigned(op2));
 		else
 			exout.rdest.reg.val <= (others => '0');
 		end if;
