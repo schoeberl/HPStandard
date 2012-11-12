@@ -30,10 +30,11 @@
 
 
 --------------------------------------------------------------------------------
--- Execution stage.
+-- Top level of Yamp for the Altera DE2-70 board.
 --
 -- Author: Martin Schoeberl (martin@jopdesign.com)
 --------------------------------------------------------------------------------
+
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -41,56 +42,94 @@ use ieee.numeric_std.all;
 
 use work.yamp_types.all;
 
-entity yamp_execute is
+entity yamp_top is
 	port(
-		clk   : in  std_logic;
-		reset : in  std_logic;
-		ena   : in  std_logic;
-		din   : in  decex_type;
-		dout  : out exmem_type);
-end entity yamp_execute;
+		clk     : in  std_logic;
+		oLEDG   : out std_logic_vector(7 downto 0);
+		iKEY    : in  std_logic_vector(3 downto 0);
+		ser_txd : out std_logic;
+		ser_rxd : in  std_logic
+	);
+end yamp_top;
 
-architecture rtl of yamp_execute is
-	signal decex_reg : decex_type;
-	signal exout     : exmem_type;
+architecture rtl of yamp_top is
+	signal clk_int : std_logic;
 
-	signal op2 : std_logic_vector(31 downto 0);
+	-- for generation of internal reset
+	signal int_res : std_logic;
+	signal res_cnt : unsigned(2 downto 0) := "000"; -- for the simulation
+
+	attribute altera_attribute : string;
+	attribute altera_attribute of res_cnt : signal is
+	"POWER_UP_LEVEL=LOW";
+
+	signal ioout : io_out_type;
+	signal ioin  : io_in_type;
+
+	signal outp    : std_logic_vector(15 downto 0);
+	signal btn_reg : std_logic_vector(3 downto 0);
 
 begin
-	-- Pipeline register, with an enable for stalling
-	-- Reset to an inactive value (nop instruction)
-	process(clk, reset)
+
+	-- clk input is 50 MHz
+	pll_inst : entity work.pll generic map(
+			multiply_by => 6,
+			divide_by   => 1
+		)
+		port map(
+			inclk0 => clk,
+			c0     => clk_int
+		);
+
+	--
+	--	internal reset generation
+	--	should include the PLL lock signal
+	--
+	process(clk_int)
 	begin
-		if reset = '1' then
-			decex_reg.instr <= (others => '0');
-		elsif rising_edge(clk) then
-			if ena = '1' then
-				decex_reg <= din;
+		if rising_edge(clk_int) then
+			if (res_cnt /= "111") then
+				res_cnt <= res_cnt + 1;
 			end if;
+			int_res <= not res_cnt(0) or not res_cnt(1) or not res_cnt(2);
 		end if;
 	end process;
 
-	exout.instr <= decex_reg.instr;
+	cpu : entity work.yamp
+		port map(clk_int, int_res, ioout, ioin);
 
-	exout.rdest.reg.regnr <= decex_reg.rdest.regnr;
-	exout.rdest.wrena     <= decex_reg.rdest.wrena;
+	--	ioin.rddata(15 downto 4) <= (others => '0');
 
-	process(decex_reg, op2)
+	--	ua: entity work.uart generic map (
+	--		clk_freq => 100000000,
+	--		baud_rate => 115200,
+	--		txf_depth => 1,
+	--		rxf_depth => 1
+	--	)
+	--	port map(
+	--		clk => clk_int,
+	--		reset => int_res,
+	--
+	--		address => ioout.addr(0),
+	--		wr_data => ioout.wrdata,
+	--		rd => ioout.rd,
+	--		wr => ioout.wr,
+	--		rd_data => ioin.rddata,
+	--
+	--		txd	 => ser_txd,
+	--		rxd	 => ser_rxd
+	--	);
+
+	process(clk_int)
 	begin
-		-- This might be better done in decode, but then we need two forwarding paths
-		if decex_reg.sel_imm='1' then
-			op2 <= decex_reg.immval;
-		else
-			op2 <= decex_reg.rt.val;
-		end if;
-		if decex_reg.sel_add='1' then
---			exout.rdest.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val) + unsigned(op2));
-			exout.rdest.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val) + unsigned(op2) + unsigned(op2) + unsigned(op2) + unsigned(op2));
-		else
-			exout.rdest.reg.val <= (others => '0');
+		if rising_edge(clk_int) then
+			--		if ioout.wr='1' then
+			outp    <= ioout.wrdata(15 downto 0);
+			--		end if;
+			oLEDG   <= outp(7 downto 0);
+			btn_reg <= iKEY;
+		--		ioin.rddata(3 downto 0) <= not btn_reg;
 		end if;
 	end process;
 
-	dout <= exout;
-
-end;
+end rtl;

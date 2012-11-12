@@ -31,8 +31,9 @@ set_max_delay -from [all_registers] -to [all_outputs] 10
 set_min_delay -from [all_registers] -to [all_outputs] -0.0
 
 # Use FPGA-centric constraints (SRAM pins)
+# not yet used in yamp
 # Tsu 2 ns
-set_max_delay -from [get_ports *] -to [get_registers {*ram*}] 2.2
+#set_max_delay -from [get_ports *] -to [get_registers {*ram*}] 2.2
 # Tco 3 ns
-set_max_delay -from [get_registers *] -to [get_ports {ram*}] 3
+#set_max_delay -from [get_registers *] -to [get_ports {ram*}] 3
 

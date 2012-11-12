@@ -100,11 +100,11 @@ package yamp_types is
 		addr   : std_logic_vector(7 downto 0);
 		rd     : std_logic;
 		wr     : std_logic;
-		wrdata : std_logic_vector(15 downto 0);
+		wrdata : std_logic_vector(31 downto 0);
 	end record;
 
 	type io_in_type is record
-		rddata : std_logic_vector(15 downto 0);
+		rddata : std_logic_vector(31 downto 0);
 	end record;
 
 end package;
