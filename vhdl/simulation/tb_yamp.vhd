@@ -35,6 +35,7 @@
 -- Author: Martin Schoeberl (martin@jopdesign.com)
 --------------------------------------------------------------------------------
 
+use std.textio.all;
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -62,6 +63,16 @@ begin
 		wait for 5 ns;
 		clk <= not clk;
 	end process;
+
+	-- Start signal for co-simulation output trace
+	process
+		variable l : line;
+	begin
+		write(l, string'("YAMP start"));
+		writeline(output, l);
+		wait;
+	end process;
+
 	-- reset
 	process
 	begin

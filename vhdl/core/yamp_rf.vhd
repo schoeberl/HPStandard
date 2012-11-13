@@ -40,7 +40,6 @@
 --general purpose registers
 ------------------------------------------
 
-library std;
 use std.textio.all;
 
 library ieee;
@@ -96,13 +95,13 @@ begin
 			else
 				fwd2 <= '0';
 			end if;
-		--pragma synthesis_off
-		--			for i in 0 to 31 loop
-		--				write(l, integer'image(to_integer(signed(ram(i)))));
-		--				write(l, ' ');
-		--			end loop;
-		--			writeline(output, l);
-		--pragma synthesis_on
+			-- pragma synthesis_off
+			for i in 0 to 31 loop
+				write(l, integer'image(to_integer(signed(ram(i)))));
+				write(l, ' ');
+			end loop;
+			writeline(output, l);
+			-- pragma synthesis_on
 		end if;
 	end process;
 

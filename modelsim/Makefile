@@ -19,6 +19,10 @@ all: clean base
 	$(WINE) vcom $(OPTIONS) $(YAMPDIR)/simulation/tb_yamp.vhd
 	$(WINE) vsim -do sim.do tb_yamp
 
+batch: clean base
+	$(WINE) vcom $(OPTIONS) $(YAMPDIR)/simulation/tb_yamp.vhd
+	$(WINE) vsim -c -do batch.do tb_yamp
+
 base:
 	$(WINE) vlib work
 	$(WINE) vcom $(OPTIONS) $(YAMPDIR)/core/yamp_types.vhd

@@ -19,8 +19,10 @@ JOP, Leros, and Patmos.
 7.11.2012: 5h30' Build binutils, ELF to VHDL conversion, fetch from ROM,
                  first two instructions, add the YARI/MIPS simulator for co-simulation
 
-12.11.2012:
-12:45-
+12.11.2012: 2h00' Add top level plus PLL for fmax tests, tests for forwarding
+
+13.11.2012: 1h15' Collect minimal set of instructions, setup co-simulation
+
 
 Prerequisites: some tools are needed
 

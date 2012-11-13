@@ -32,9 +32,11 @@ all: tools compiler rom
 #	make yamp
 
 
+# download and build the binutils
 compiler:
 	scripts/build.sh
 
+# download YARI and build the SW simulator yarisim
 yarisim:
 	scripts/yarisim.sh
 
@@ -78,9 +80,11 @@ sim:
 	make rom
 	cd modelsim; make
 
+bsim:
+	cd modelsim; make batch
+
 # MIPS simulator with yarisim
 ysim:
-	make rom
 	bin/yarisim --regdump tmp/$(APP).out
 
 # Testing

@@ -1,0 +1,23 @@
+
+MIPS instructions - the minimum as used in R2000/MIPS I
+
+add, addi, addiu, addu, sub, subu
+and, andi, or, ori
+beq, bne
+j, jal, jr
+lbu, lhu,
+lui
+lw
+nor
+slt, slti, sltiu, sltu
+sll, srl, sra
+sb, sh, sw
+
+Can we live without mul/div for a first version?
+mult, multu, mfhi, mflo, div, divu
+This is not MIPS I
+ll, sc
+
+Implemented:
+
+Tested (test bench available):
