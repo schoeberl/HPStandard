@@ -47,6 +47,8 @@ entity yamp_execute is
 		reset : in  std_logic;
 		ena   : in  std_logic;
 		din   : in  decex_type;
+		memin : in  memwb_type;
+		wbin  : in  wb_type;
 		dout  : out exmem_type);
 end entity yamp_execute;
 
@@ -54,7 +56,7 @@ architecture rtl of yamp_execute is
 	signal decex_reg : decex_type;
 	signal exout     : exmem_type;
 
-	signal op2 : std_logic_vector(31 downto 0);
+	signal ra, rb, op2 : std_logic_vector(31 downto 0);
 
 begin
 	-- Pipeline register, with an enable for stalling
@@ -75,16 +77,35 @@ begin
 	exout.rdest.reg.regnr <= decex_reg.rdest.regnr;
 	exout.rdest.wrena     <= decex_reg.rdest.wrena;
 
-	process(decex_reg, op2)
+	-- forwarding
+	process(decex_reg, memin, wbin)
+	begin
+		ra <= decex_reg.rs.val;
+		rb <= decex_reg.rt.val;
+
+		if memin.rdest.reg.regnr = decex_reg.rs.regnr and memin.rdest.wrena = '1' then
+			ra <= memin.rdest.reg.val;
+		elsif wbin.rdest.reg.regnr = decex_reg.rs.regnr and wbin.rdest.wrena = '1' then
+			ra <= wbin.rdest.reg.val;
+		end if;
+		if memin.rdest.reg.regnr = decex_reg.rt.regnr and memin.rdest.wrena = '1' then
+			rb <= memin.rdest.reg.val;
+		elsif wbin.rdest.reg.regnr = decex_reg.rt.regnr and wbin.rdest.wrena = '1' then
+			rb <= wbin.rdest.reg.val;
+		end if;
+	end process;
+
+	process(decex_reg, op2, ra, rb)
 	begin
 		-- This might be better done in decode, but then we need two forwarding paths
-		if decex_reg.sel_imm='1' then
+		-- or disable forwarding when it is immediate (maybe with a crude r0 source).
+		if decex_reg.sel_imm = '1' then
 			op2 <= decex_reg.immval;
 		else
-			op2 <= decex_reg.rt.val;
+			op2 <= rb;
 		end if;
-		if decex_reg.sel_add='1' then
-			exout.rdest.reg.val <= std_logic_vector(unsigned(decex_reg.rs.val) + unsigned(op2));
+		if decex_reg.sel_add = '1' then
+			exout.rdest.reg.val <= std_logic_vector(unsigned(ra) + unsigned(op2));
 		else
 			exout.rdest.reg.val <= (others => '0');
 		end if;

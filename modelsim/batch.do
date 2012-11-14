@@ -1,3 +1,3 @@
 set NumericStdNoWarnings 1
-run 400ns
+run 1000ns
 quit

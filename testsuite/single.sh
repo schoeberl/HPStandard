@@ -14,6 +14,9 @@ errors=()
 mkdir -p "${LOG_DIR}"
 echo "${TEST}"
 
+# assemble the test case
+make rom 1>"${LOG_DIR}/asm.out" 2>"${LOG_DIR}/asm.err"
+
 # run modelsim
 make bsim APP="${TEST}" 1>"${LOG_DIR}/ms.out" 2>"${LOG_DIR}/ms.err" \
     || errors+=("ms")

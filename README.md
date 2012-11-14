@@ -21,16 +21,15 @@ JOP, Leros, and Patmos.
 
 12.11.2012: 2h00' Add top level plus PLL for fmax tests, tests for forwarding
 
-13.11.2012: 1h15' Collect minimal set of instructions, setup co-simulation
-
+13.11.2012: 2h15' Collect minimal set of instructions, setup co-simulation, forwarding
 
 Prerequisites: some tools are needed
 
-	* make
-	* Java (JDK)
-	* a C compiler
-	* cmake and boost (recent versions)
-	* libelf
-	* ModelSim
-	* (Quartus)
-	* SDL (sdllib on Mac ports)
+* make
+* Java (JDK)
+* a C compiler
+* cmake and boost (recent versions)
+* libelf
+* ModelSim
+* (Quartus)
+* SDL (sdllib on Mac ports)

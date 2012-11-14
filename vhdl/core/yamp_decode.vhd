@@ -94,7 +94,7 @@ begin
 
 	decout.instr <= fedec_reg.instr;
 
-	process(opcode, funct, fedec_reg)
+	process(opcode, funct, fedec_reg, decout)
 	begin
 		-- some useful defaults
 		decout.sel_imm     <= '0';
@@ -130,7 +130,11 @@ begin
 				null;
 		end case;
 
-		-- TODO: disable wrena when rdest.regnr == 0
+		-- Is this good style to asign the value in the process and also read it?
+		-- Disable wrena when rdest.regnr == 0
+		if decout.rdest.regnr = "00000" then
+			decout.rdest.wrena <= '0';
+		end if;
 	end process;
 
 	dout <= decout;

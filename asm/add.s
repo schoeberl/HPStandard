@@ -27,9 +27,19 @@ main:
 	add $10, $0, $5
 	nop
 	nop
+#
+# Other forwarding path
+#
+	add $5, $5, $5
+	add $6, $5, $0
+	add $7, $5, $0
+	add $8, $5, $0
+	add $9, $5, $0
+	add $10, $5, $0
+	nop
 	nop
 # 
-# Now check write to $0 and value escape due to forwarding
+# Now check write to $0 and if value escapes due to forwarding
 #
 	add $0, $0, 7
 	add $1, $0, 1
