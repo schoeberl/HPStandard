@@ -78,7 +78,7 @@ begin
 	exout.rdest.wrena     <= decex_reg.rdest.wrena;
 
 	-- forwarding
-	process(decex_reg, memin, wbin)
+	process(all)
 	begin
 		ra <= decex_reg.rs.val;
 		rb <= decex_reg.rt.val;
@@ -95,7 +95,7 @@ begin
 		end if;
 	end process;
 
-	process(decex_reg, op2, ra, rb)
+	process(all)
 	begin
 		-- This might be better done in decode, but then we need two forwarding paths
 		-- or disable forwarding when it is immediate (maybe with a crude r0 source).
@@ -106,11 +106,15 @@ begin
 		end if;
 		if decex_reg.sel_add = '1' then
 			exout.rdest.reg.val <= std_logic_vector(unsigned(ra) + unsigned(op2));
+		elsif decex_reg.sel_ldimm = '1' then
+			exout.rdest.reg.val <= op2; -- load upper immediate
+		elsif decex_reg.sel_or = '1' then
+			exout.rdest.reg.val <= ra or op2;
+		elsif decex_reg.sel_and = '1' then
+			exout.rdest.reg.val <= ra and op2;
 		else
 			exout.rdest.reg.val <= (others => '0');
 		end if;
-	end process;
-
-	dout <= exout;
+	end process; dout <= exout;
 
 end;

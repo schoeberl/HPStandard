@@ -105,7 +105,7 @@ begin
 		end if;
 	end process;
 
-	process(ram, wr_addr_reg, wr_data_reg, wr_en_reg, rd_addr_reg1, rd_addr_reg2, fwd1, fwd2)
+	process(all)
 	begin
 		-- According to Edgar this does not work with Xilinx
 		--		if wr_en_reg = '1' then

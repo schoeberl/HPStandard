@@ -1,6 +1,7 @@
 #!/bin/bash
 
 tests="add"
+tests="addov"
 not_working="non"
 expect_fail=0
 

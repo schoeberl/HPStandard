@@ -109,15 +109,15 @@ public class YampYari {
 			ms.next();
 			for (int i=0; i<32; ++i) {
 				int msVal = ms.nextInt();
-				while (!hs.hasNextLong(16)) {
+				while (!hs.hasNextInt()) {
 					hs.next();
 				}
-				int hsVal = (int) hs.nextLong(16);
+				int hsVal = (int) hs.nextInt();
 //				System.out.print(cnt+": ");
 //				System.out.print(msVal+" - "+hsVal+";");
 				if (msVal != hsVal) {
 					System.out.println("Difference in instruction: "+cnt);
-					System.out.println("Register "+i+ " VHDL: "+msVal+" patsim: "+hsVal);
+					System.out.println("Register "+i+ " VHDL: "+msVal+" yarisim: "+hsVal);
 					System.exit(1);
 				}
 			}

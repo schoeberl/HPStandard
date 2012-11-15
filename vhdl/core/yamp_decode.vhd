@@ -85,20 +85,23 @@ begin
 	decout.rt.regnr <= fedec_reg.instr(20 downto 16);
 	decout.sa       <= fedec_reg.instr(10 downto 6);
 
-	-- TODO: sign extend when needed
-	decout.immval(15 downto 0)  <= fedec_reg.instr(15 downto 0);
-	decout.immval(31 downto 16) <= (others => '0');
-
 	funct  <= fedec_reg.instr(5 downto 0);
 	opcode <= fedec_reg.instr(31 downto 26);
 
 	decout.instr <= fedec_reg.instr;
 
-	process(opcode, funct, fedec_reg, decout)
+	process(all)
 	begin
 		-- some useful defaults
-		decout.sel_imm     <= '0';
-		decout.sel_add     <= '0';
+		decout.sel_imm              <= '0';
+		decout.sel_add              <= '0';
+		decout.sel_ldimm            <= '0';
+		decout.sel_or               <= '0';
+		decout.sel_and              <= '0';
+		-- TODO: sign extend when needed
+		decout.immval(15 downto 0)  <= fedec_reg.instr(15 downto 0);
+		decout.immval(31 downto 16) <= (others => '0');
+
 		-- default is R type
 		decout.rdest.regnr <= fedec_reg.instr(15 downto 11);
 		decout.rdest.wrena <= '0';
@@ -106,16 +109,27 @@ begin
 		case opcode is
 			when "000000" =>            -- R format (?)
 				case funct is
-					when "000000" =>
+					when "000000" =>    -- ?
+
 					when "100000" =>    -- add
 						decout.sel_add     <= '1';
 						decout.rdest.wrena <= '1';
 					when "100001" =>    -- addu
 						decout.sel_add     <= '1';
 						decout.rdest.wrena <= '1';
+					when "100101" =>    -- or
+						decout.sel_or      <= '1';
+						decout.rdest.wrena <= '1';
 					when others =>
 						null;
 				end case;
+			when "001111" =>            -- lui
+				decout.sel_imm              <= '1';
+				decout.sel_ldimm            <= '1';
+				decout.rdest.wrena          <= '1';
+				decout.rdest.regnr          <= fedec_reg.instr(20 downto 16);
+				decout.immval(15 downto 0)  <= (others => '0');
+				decout.immval(31 downto 16) <= fedec_reg.instr(15 downto 0);
 			when "001000" =>            -- addi
 				decout.sel_imm     <= '1';
 				decout.sel_add     <= '1';
@@ -124,6 +138,11 @@ begin
 			when "001001" =>            -- addiu
 				decout.sel_imm     <= '1';
 				decout.sel_add     <= '1';
+				decout.rdest.wrena <= '1';
+				decout.rdest.regnr <= fedec_reg.instr(20 downto 16);
+			when "001101" =>            -- ori
+				decout.sel_imm     <= '1';
+				decout.sel_or      <= '1';
 				decout.rdest.wrena <= '1';
 				decout.rdest.regnr <= fedec_reg.instr(20 downto 16);
 			when others =>

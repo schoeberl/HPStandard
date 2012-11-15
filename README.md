@@ -24,7 +24,7 @@ https://github.com/schoeberl/yamp/archive/master.zip
 
 A plain 'make' will:
 
-1) Sownload additional tools (binutils, YARI simulator)
+1) Download additional tools (binutils, YARI simulator)
 2) Build the tools
 3) Assemble the add.s test program
 4) Compile YAMP
@@ -71,4 +71,4 @@ Timing logging
 13.11.2012: 2h15' Collect minimal set of instructions, setup co-simulation, forwarding
 
 15.11.2012:
-12:15-
+12:15-12:30 14:20-14:40 15:20

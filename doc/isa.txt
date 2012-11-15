@@ -18,6 +18,26 @@ mult, multu, mfhi, mflo, div, divu
 This is not MIPS I
 ll, sc
 
+To implement:
+
+sub, subu
+and, andi, or, ori
+beq, bne
+j, jal, jr
+lbu, lhu,
+lw
+nor
+slt, slti, sltiu, sltu
+sll, srl, sra
+sb, sh, sw
+
+Can we live without mul/div for a first version?
+mult, multu, mfhi, mflo, div, divu
+
 Implemented:
+
+add, addi, addiu, addu,
+or, ori
+lui
 
 Tested (test bench available):

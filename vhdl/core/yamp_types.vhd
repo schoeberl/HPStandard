@@ -71,13 +71,16 @@ package yamp_types is
 	end record;
 
 	type decex_type is record
-		instr   : std_logic_vector(31 downto 0);
-		rs, rt  : reg_type;
-		rdest   : regdest_dec_type;
-		sa      : std_logic_vector(4 downto 0);
-		immval  : std_logic_vector(31 downto 0);
-		sel_imm : std_logic;
-		sel_add : std_logic;
+		instr     : std_logic_vector(31 downto 0);
+		rs, rt    : reg_type;
+		rdest     : regdest_dec_type;
+		sa        : std_logic_vector(4 downto 0);
+		immval    : std_logic_vector(31 downto 0);
+		sel_imm   : std_logic;
+		sel_add   : std_logic;
+		sel_or : std_logic;
+		sel_and : std_logic;
+		sel_ldimm : std_logic;
 	end record;
 
 	type exmem_type is record

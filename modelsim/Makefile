@@ -4,8 +4,8 @@
 
 
 YAMPDIR=../vhdl
-#OPTIONS=-93 -quiet -check_synthesis -lint -pedanticerrors
-OPTIONS=-93 -quiet
+#OPTIONS= -2008 -quiet -check_synthesis -lint -pedanticerrors
+OPTIONS= -2008 -quiet
 
 ifeq ($(WINDIR),)
 	WINE=wine
