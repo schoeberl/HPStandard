@@ -27,7 +27,7 @@ endif
 QPROJ=dspio
 QPROJ=altde2-70
 
-all: tools compiler rom 
+all: tools compiler yarisim rom 
 	make sim
 #	make yamp
 
