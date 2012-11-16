@@ -1,7 +1,7 @@
 #
 # First test of a simple add. With some forwarding tests.
 #
-# Author: Martin Schoeberl (martin@jopdesign.com
+# Author: Martin Schoeberl (martin@jopdesign.com)
 #
 main:
 	li $2, 1

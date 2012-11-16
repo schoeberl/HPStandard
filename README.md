@@ -70,5 +70,4 @@ Timing logging
 
 13.11.2012: 2h15' Collect minimal set of instructions, setup co-simulation, forwarding
 
-15.11.2012:
-12:15-12:30 14:20-14:40 15:20
+15.11.2012: 1h30' Some more ALU instructions

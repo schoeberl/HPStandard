@@ -21,7 +21,6 @@ ll, sc
 To implement:
 
 sub, subu
-and, andi, or, ori
 beq, bne
 j, jal, jr
 lbu, lhu,
@@ -36,8 +35,8 @@ mult, multu, mfhi, mflo, div, divu
 
 Implemented:
 
-add, addi, addiu, addu,
-or, ori
-lui
-
 Tested (test bench available):
+
+add, addi, addiu, addu,
+and, andi, or, ori
+lui

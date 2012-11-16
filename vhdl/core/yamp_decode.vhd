@@ -117,6 +117,9 @@ begin
 					when "100001" =>    -- addu
 						decout.sel_add     <= '1';
 						decout.rdest.wrena <= '1';
+					when "100100" =>    -- and
+						decout.sel_and     <= '1';
+						decout.rdest.wrena <= '1';
 					when "100101" =>    -- or
 						decout.sel_or      <= '1';
 						decout.rdest.wrena <= '1';
@@ -131,13 +134,20 @@ begin
 				decout.immval(15 downto 0)  <= (others => '0');
 				decout.immval(31 downto 16) <= fedec_reg.instr(15 downto 0);
 			when "001000" =>            -- addi
-				decout.sel_imm     <= '1';
-				decout.sel_add     <= '1';
-				decout.rdest.wrena <= '1';
-				decout.rdest.regnr <= fedec_reg.instr(20 downto 16);
+				decout.sel_imm              <= '1';
+				decout.sel_add              <= '1';
+				decout.rdest.wrena          <= '1';
+				decout.rdest.regnr          <= fedec_reg.instr(20 downto 16);
+				decout.immval(31 downto 16) <= (others => fedec_reg.instr(15));
 			when "001001" =>            -- addiu
+				decout.sel_imm              <= '1';
+				decout.sel_add              <= '1';
+				decout.rdest.wrena          <= '1';
+				decout.rdest.regnr          <= fedec_reg.instr(20 downto 16);
+				decout.immval(31 downto 16) <= (others => fedec_reg.instr(15));
+			when "001100" =>            -- andi
 				decout.sel_imm     <= '1';
-				decout.sel_add     <= '1';
+				decout.sel_and      <= '1';
 				decout.rdest.wrena <= '1';
 				decout.rdest.regnr <= fedec_reg.instr(20 downto 16);
 			when "001101" =>            -- ori
