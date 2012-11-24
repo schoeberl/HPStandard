@@ -1,0 +1,115 @@
+\documentclass[conference]{IEEEtran}
+
+%\usepackage[colorlinks=true,urlcolor=black,linkcolor=black,citecolor=black]{hyperref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+\usepackage{dcolumn}
+\newcommand{\cc}[1]{\multicolumn{1}{c}{#1}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+
+% use Lucida fonts for both text and math.
+%\usepackage[altbullet]{lucidabr}     % get larger bullet
+% or just use it for code:
+%\renewcommand{\ttdefault}{hlst}
+%% this one looks also better for courier:
+\renewcommand*\ttdefault{txtt}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\sffamily,
+  keywordstyle=\sffamily,
+  language=Java,
+  columns=flexible, % add any modifications here
+}
+
+\lstnewenvironment{Java}{}{}
+
+\newcommand{\code}[1]{{\textsf{#1}}}
+
+% now we have colors ;-)
+\usepackage[usenames,dvipsnames]{color}
+\newcommand{\tommy}[1]{{\color{OliveGreen} Tommy: #1}}
+\newcommand{\martin}[1]{{\color{blue} Martin: #1}}
+
+\newcommand{\todo}[1]{\emph{TODO: #1}}
+
+%\renewcommand{\tommy}[1]{}
+%\renewcommand{\martin}[1]{}
+%\renewcommand{\todo}[1]{}
+
+\usepackage{textcomp} % for \textmu{s}
+
+\widowpenalty=10000
+\clubpenalty=10000
+
+% for overhanging lines
+\setlength{\emergencystretch}{3em}
+
+\begin{document}
+
+\title{YAMP: Yet Another MIPS Processor}
+
+\author{\IEEEauthorblockN{Martin Schoeberl}
+\IEEEauthorblockA{Department of Informatics and Mathematical Modeling\\
+Technical University of Denmark\\
+Email: masca@imm.dtu.dk}}
+
+
+
+\maketitle \thispagestyle{empty}
+
+
+\begin{abstract}
+
+This document is a collection of observations during the design of a MIPS
+compatible RSIC CPU for an FPGA.
+\end{abstract}
+
+
+\section{Introduction}
+
+Although the MIPS described in the standard computer architecture book by
+Hennessy and Patterson is described as 5 stage pipeline, the original MIPS
+2000 has been a 4 stage pipeline [citation needed].
+
+\section{Some Numbers}
+
+Cyclone EP2C70-6 (Altera DE2-70 board), Quartus 10.1
+
+Simple ALU with add, and, or, lui
+
+PLL set to 200 MHz
+
+with forwarding: 93 MHz
+drop lui, or: 98 MHz
+drop forwarding: 113 MHz
+drop forwarding, and, or, lui: 122 MHz
+
+Path goes from dec/address\_reg (RF) to exmem register destination register value.
+
+Why is there a path from the RF address register to the ALU output register?
+
+Remove forwarding within RF: Quartus writes that through path is added, 127 MHz
+
+33 Logic levels. This is the adder, right?
+
+Doing or instead of add: 203 MHz
+
+MMh, is 32-bit adding so expensive?
+
+%\section{Related Work}
+%
+%\section{Conclusions}
+%\label{sec:conclusion}
+%
+%\section{Acknowledgments}
+%
+%\todo{This work received funding from XXX. }
+
+% \bibliographystyle{plain} % similar to IEEE without URLs
+\bibliographystyle{plain}
+\bibliography{msbib}
+
+\end{document}
+

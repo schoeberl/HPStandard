@@ -71,3 +71,5 @@ Timing logging
 13.11.2012: 2h15' Collect minimal set of instructions, setup co-simulation, forwarding
 
 15.11.2012: 1h30' Some more ALU instructions
+
+23.11.2012: 18:25-19:05 Start a LaTeX document
