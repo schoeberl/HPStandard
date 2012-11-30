@@ -95,9 +95,11 @@ begin
 		-- some useful defaults
 		decout.sel_imm              <= '0';
 		decout.sel_add              <= '0';
+		decout.sel_sub              <= '0';
 		decout.sel_ldimm            <= '0';
 		decout.sel_or               <= '0';
 		decout.sel_and              <= '0';
+		decout.sel_nor              <= '0';
 		-- TODO: sign extend when needed
 		decout.immval(15 downto 0)  <= fedec_reg.instr(15 downto 0);
 		decout.immval(31 downto 16) <= (others => '0');
@@ -117,11 +119,20 @@ begin
 					when "100001" =>    -- addu
 						decout.sel_add     <= '1';
 						decout.rdest.wrena <= '1';
+					when "100010" =>    -- sub
+						decout.sel_sub     <= '1';
+						decout.rdest.wrena <= '1';
+					when "100011" =>    -- subu
+						decout.sel_sub     <= '1';
+						decout.rdest.wrena <= '1';
 					when "100100" =>    -- and
 						decout.sel_and     <= '1';
 						decout.rdest.wrena <= '1';
 					when "100101" =>    -- or
 						decout.sel_or      <= '1';
+						decout.rdest.wrena <= '1';
+					when "100111" =>    -- nor
+						decout.sel_nor      <= '1';
 						decout.rdest.wrena <= '1';
 					when others =>
 						null;
@@ -147,7 +158,7 @@ begin
 				decout.immval(31 downto 16) <= (others => fedec_reg.instr(15));
 			when "001100" =>            -- andi
 				decout.sel_imm     <= '1';
-				decout.sel_and      <= '1';
+				decout.sel_and     <= '1';
 				decout.rdest.wrena <= '1';
 				decout.rdest.regnr <= fedec_reg.instr(20 downto 16);
 			when "001101" =>            -- ori

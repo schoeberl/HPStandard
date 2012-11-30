@@ -72,4 +72,6 @@ Timing logging
 
 15.11.2012: 1h30' Some more ALU instructions
 
-23.11.2012: 18:25-19:05 Start a LaTeX document
+23.11.2012: 0h45' Start a LaTeX document
+
+29.11.2012: 1h15' Some more ALU functions (sub/u and nor), fix in yarisim

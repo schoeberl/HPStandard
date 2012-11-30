@@ -87,6 +87,10 @@ bsim:
 ysim:
 	bin/yarisim --regdump tmp/$(APP).out
 
+# Co-simulation (run a single test)
+cosim:
+	testsuite/single.sh $(APP)
+
 # Testing
 test:
 	testsuite/run.sh

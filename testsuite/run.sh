@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # addov
-tests="add alu"
-tests="alu"
+tests="add alu addov sub"
+# tests="alu"
 not_working="non"
 expect_fail=0
 

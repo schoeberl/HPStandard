@@ -5,8 +5,13 @@
 # Author: Martin Schoeberl (martin@jopdesign.com)
 #
 main:
+
 	li $2, 1
 	li $3, 2
+
+	or $20, $2, $3
+	nor $21, $2, $3
+	
 	li $4, -123
 	li $5, 2000000000
 #	add $7, $4, $3   # this sends yarisim in a very long loop, no idea why
@@ -24,8 +29,12 @@ main:
 	addiu $15, $3, -456
 	addu $16, $4, $5
 
+# yarisim gives -3 for the following nor. Why?
+# should be fixed now
+	nor $17, $2, $3
+	nor $18, $4, $5
+	nor $19, $3, $5
 
-	nop
 	nop
 	nop
 	nop

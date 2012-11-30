@@ -104,14 +104,20 @@ begin
 		else
 			op2 <= rb;
 		end if;
+		-- There might be some possibilities for optimization here,
+		-- but we don't care now. We also ignore overflow exceptions.
 		if decex_reg.sel_add = '1' then
 			exout.rdest.reg.val <= std_logic_vector(unsigned(ra) + unsigned(op2));
+		elsif decex_reg.sel_sub = '1' then
+			exout.rdest.reg.val <= std_logic_vector(unsigned(ra) - unsigned(op2));
 		elsif decex_reg.sel_ldimm = '1' then
 			exout.rdest.reg.val <= op2; -- load upper immediate
 		elsif decex_reg.sel_or = '1' then
 			exout.rdest.reg.val <= ra or op2;
 		elsif decex_reg.sel_and = '1' then
 			exout.rdest.reg.val <= ra and op2;
+		elsif decex_reg.sel_nor = '1' then
+			exout.rdest.reg.val <= ra nor op2;
 		else
 			exout.rdest.reg.val <= (others => '0');
 		end if;
