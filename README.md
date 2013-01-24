@@ -1,7 +1,7 @@
-YAMP
+HPStandard
 ====
 
-Yet Another MIPS Processor
+A Hennessy and Patterson Standard 5 Stage MIPS Pipeline.
 
 A design of the seminal 5 stage pipeline that shall be easy to read,
 clean VHDL code. Mainly an educational design. Might contain some FPGA
